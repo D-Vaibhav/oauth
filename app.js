@@ -1,5 +1,6 @@
 const express= require('express');
 const authRoutes= require('./routes/auth-routes');
+require('./config/passport-setup');
 const app= express();
 
 const PORT= process.env.PORT || 4000;
