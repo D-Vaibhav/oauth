@@ -9,7 +9,22 @@ passport.use( new GoogleStratergy({
         clientSecret: keys.google.clientSecret
     }, 
     (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
-        // User.findOne({})
+        // console.log(profile);
+        console.log('-------------------call-back function----------------');
+        User.findOne({googleId: profile.id}).then( (user) => {
+            if(user){
+                console.log('user already present in db:', user);
+            }
+            else{
+                new User({
+                    username: profile.displayName,
+                    googleId: profile.id
+                })
+                .save()
+                .then( (newUser) => {
+                    console.log('new user registered in db', newUser);
+                });
+            }
+        }   );
     }
 ));
